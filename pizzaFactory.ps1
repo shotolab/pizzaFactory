@@ -182,5 +182,5 @@ Write-Output 'You WIN!'
 if ($guessIteration -eq 1) {
     Write-Output "Perfect Game! It only took you 1 guess!."
 } else {
-    Write-Output "It took you $guessIteration guesses.`r`nSee if you can do it again in fewer guesses."
+    Write-Output "It took you $guessIteration guesses.`r`nTry to do it again in fewer guesses."
 }
