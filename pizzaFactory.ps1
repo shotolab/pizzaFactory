@@ -2,7 +2,7 @@
 
 # Initialization
 
-$totalOptions = 2
+$totalOptions = 4
 
 $crust = [ordered]@{
     0 = 'Thin'
@@ -16,20 +16,37 @@ $sauce = [ordered]@{
     2 = 'Pesto'
 }
 
+$meat = [ordered]@{
+    0 = 'Pepperoni'
+    1 = 'Sausage'
+    2 = 'Ham'
+}
+
+$produce = [ordered]@{
+    0 = 'Green Pepper'
+    1 = 'Onion'
+    2 = 'Pineapple'
+}
+
 $crustMasterIndex = Get-Random -Maximum 3
 $sauceMasterIndex = Get-Random -Maximum 3
-
+$meatMasterIndex = Get-Random -Maximum 3
+$produceMasterIndex = Get-Random -Maximum 3
 
 $crustMaster = $crust[$crustMasterIndex]
 $sauceMaster = $sauce[$sauceMasterIndex]
+$meatMaster = $meat[$meatMasterIndex]
+$produceMaster = $produce[$produceMasterIndex]
 #debug
-#Write-Output $crustMaster
-#Write-Output $sauceMaster
+Write-Output $crustMaster
+Write-Output $sauceMaster
+Write-Output $meatMaster
+Write-Output $produceMaster
 #debug
 
 # Initialization
 
-$ready = Read-Host 'Ready to play (y/n)?'
+$ready = Read-Host 'Would you like to play a game (y/n)?'
 
 if ($ready.ToUpper() -eq 'N') { exit }
 $ready
@@ -89,8 +106,60 @@ while ($correctGuesses -lt $totalOptions) {
     }
     # Select Sauce
 
+    # Select Meat
+    $meat | Format-Table
+    
+    $meatSelectionIndex = -1
+    $meatSelectionObject = $null
+
+    while (!$meatSelectionObject) {
+        $meatSelectionIndex = Read-Host "Choose a number representing the meat type: (0-$($meat.count - 1))"
+        $meatSelectionIndex = $meatSelectionIndex -as [int]
+        #Write-Output "** $meatSelectionIndex **"
+        $meatSelectionObject = $meat[$meatSelectionIndex]
+    
+        if (!$meatSelectionObject) {
+            Write-Output 'Invalid entry, please try again'
+        }
+    }
+    
+    Write-Output "You selected $($meatSelectionObject) meat."
+    
+    if ($meatSelectionIndex -eq $meatMasterIndex) {
+        $correctGuesses = $correctGuesses + 1        
+    }
+    # Select Meat
+
+    # Select Produce
+    $produce | Format-Table
+    
+    $produceSelectionIndex = -1
+    $produceSelectionObject = $null
+
+    while (!$produceSelectionObject) {
+        $produceSelectionIndex = Read-Host "Choose a number representing the produce type: (0-$($produce.count - 1))"
+        $produceSelectionIndex = $produceSelectionIndex -as [int]
+        #Write-Output "** $produceSelectionIndex **"
+        $produceSelectionObject = $produce[$produceSelectionIndex]
+    
+        if (!$produceSelectionObject) {
+            Write-Output 'Invalid entry, please try again'
+        }
+    }
+    
+    Write-Output "You selected $($produceSelectionObject) produce."
+    
+    if ($produceSelectionIndex -eq $produceMasterIndex) {
+        $correctGuesses = $correctGuesses + 1        
+    }
+    # Select Produce
+
     Write-Output "You got $correctGuesses correct."
 }
 
 Write-Output 'You WIN!'
-
+if ($guessIteration -eq 1) {
+    Write-Output "Perfect Game! It only took you 1 guess!."
+} else {
+    Write-Output "It took you $guessIteration guesses.`r`nSee if you can do it again in fewer guesses."
+}
