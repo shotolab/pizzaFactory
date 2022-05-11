@@ -4,29 +4,29 @@
 
 $totalOptions = 4
 
-$crust = [ordered]@{
-    1 = 'Thin'
-    2 = 'Hand tossed'
-    3 = 'Deep dish'
-}
+$crust = @(
+    [pscustomobject]@{Number=1; Name='Thin'}
+    [pscustomobject]@{Number=2; Name='Hand Tossed'}
+    [pscustomobject]@{Number=3; Name='Deep Dish'}
+)
 
-$sauce = [ordered]@{
-    1 = 'Red'
-    2 = 'Spicy Red'
-    3 = 'Pesto'
-}
+$sauce = @(
+    [pscustomobject]@{Number=1; Name='Red'}
+    [pscustomobject]@{Number=2; Name='Spicy Red'}
+    [pscustomobject]@{Number=3; Name='Pesto'}
+)
 
-$meat = [ordered]@{
-    1 = 'Pepperoni'
-    2 = 'Sausage'
-    3 = 'Ham'
-}
+$meat = @(
+    [pscustomobject]@{Number=1; Name='Pepperoni'}
+    [pscustomobject]@{Number=2; Name='Sausage'}
+    [pscustomobject]@{Number=3; Name='Ham'}
+)
 
-$produce = [ordered]@{
-    1 = 'Green Pepper'
-    2 = 'Onion'
-    3 = 'Pineapple'
-}
+$produce = @(
+    [pscustomobject]@{Number=1; Name='Green Pepper'}
+    [pscustomobject]@{Number=2; Name='Onion'}
+    [pscustomobject]@{Number=3; Name='Pineapple'}
+)
 
 $crustMasterIndex = Get-Random -Maximum 3 -Minimum 0
 $sauceMasterIndex = Get-Random -Maximum 3 -Minimum 0
@@ -83,7 +83,7 @@ while ($correctGuesses -lt $totalOptions) {
         }
     }
     
-    Write-Output "You selected $($crustSelectionObject) crust."
+    Write-Output "You selected $($crustSelectionObject.Name) crust."
     
     if ($crustSelectionIndex -eq $crustMasterIndex) {
         $correctGuesses = $correctGuesses + 1        
@@ -107,7 +107,7 @@ while ($correctGuesses -lt $totalOptions) {
         }
     }
     
-    Write-Output "You selected $($sauceSelectionObject) sauce."
+    Write-Output "You selected $($sauceSelectionObject.Name) sauce."
     
     if ($sauceSelectionIndex -eq $sauceMasterIndex) {
         $correctGuesses = $correctGuesses + 1        
@@ -131,7 +131,7 @@ while ($correctGuesses -lt $totalOptions) {
         }
     }
     
-    Write-Output "You selected $($meatSelectionObject) meat."
+    Write-Output "You selected $($meatSelectionObject.Name) meat."
     
     if ($meatSelectionIndex -eq $meatMasterIndex) {
         $correctGuesses = $correctGuesses + 1        
@@ -155,7 +155,7 @@ while ($correctGuesses -lt $totalOptions) {
         }
     }
     
-    Write-Output "You selected $($produceSelectionObject) produce."
+    Write-Output "You selected $($produceSelectionObject.Name) produce."
     
     if ($produceSelectionIndex -eq $produceMasterIndex) {
         $correctGuesses = $correctGuesses + 1        
@@ -164,10 +164,10 @@ while ($correctGuesses -lt $totalOptions) {
 
     $guess = [pscustomobject]@{
         iteration = $guessIteration
-        crust = $crustSelectionObject
-        sauce = $sauceSelectionObject
-        meat = $meatSelectionObject
-        produce = $produceSelectionObject
+        crust = $crustSelectionObject.Name
+        sauce = $sauceSelectionObject.Name
+        meat = $meatSelectionObject.Name
+        produce = $produceSelectionObject.Name
         correct = $correctGuesses
     }
     $guessHistory += $guess
