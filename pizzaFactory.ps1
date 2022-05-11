@@ -1,4 +1,4 @@
-﻿Write-Output 'Welcome to Pizza Factory'
+﻿Write-Output "`r`nWelcome to The Pizza Factory`r`n"
 
 # Initialization
 
@@ -38,18 +38,23 @@ $sauceMaster = $sauce[$sauceMasterIndex]
 $meatMaster = $meat[$meatMasterIndex]
 $produceMaster = $produce[$produceMasterIndex]
 #debug
-Write-Output $crustMaster
-Write-Output $sauceMaster
-Write-Output $meatMaster
-Write-Output $produceMaster
+#Write-Output $crustMaster
+#Write-Output $sauceMaster
+#Write-Output $meatMaster
+#Write-Output $produceMaster
 #debug
 
 # Initialization
 
 $ready = Read-Host 'Would you like to play a game (y/n)?'
+Write-Host @"
+`r`n
+Your job is to guess the pizza ingredients the customer has selected. Each 
+time, the customer will provide feedback on how many ingredients you got correct.
+It's your job to determine which ones are correct.
+"@ 
 
 if ($ready.ToUpper() -eq 'N') { exit }
-$ready
 
 $guessIteration = 0
 $correctGuesses = 0
