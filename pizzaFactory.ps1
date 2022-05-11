@@ -5,33 +5,33 @@
 $totalOptions = 4
 
 $crust = [ordered]@{
-    0 = 'Thin'
-    1 = 'Hand tossed'
-    2 = 'Deep dish'
+    1 = 'Thin'
+    2 = 'Hand tossed'
+    3 = 'Deep dish'
 }
 
 $sauce = [ordered]@{
-    0 = 'Red'
-    1 = 'Spicy Red'
-    2 = 'Pesto'
+    1 = 'Red'
+    2 = 'Spicy Red'
+    3 = 'Pesto'
 }
 
 $meat = [ordered]@{
-    0 = 'Pepperoni'
-    1 = 'Sausage'
-    2 = 'Ham'
+    1 = 'Pepperoni'
+    2 = 'Sausage'
+    3 = 'Ham'
 }
 
 $produce = [ordered]@{
-    0 = 'Green Pepper'
-    1 = 'Onion'
-    2 = 'Pineapple'
+    1 = 'Green Pepper'
+    2 = 'Onion'
+    3 = 'Pineapple'
 }
 
-$crustMasterIndex = Get-Random -Maximum 3
-$sauceMasterIndex = Get-Random -Maximum 3
-$meatMasterIndex = Get-Random -Maximum 3
-$produceMasterIndex = Get-Random -Maximum 3
+$crustMasterIndex = Get-Random -Maximum 3 -Minimum 0
+$sauceMasterIndex = Get-Random -Maximum 3 -Minimum 0
+$meatMasterIndex = Get-Random -Maximum 3 -Minimum 0
+$produceMasterIndex = Get-Random -Maximum 3 -Minimum 0
 
 $crustMaster = $crust[$crustMasterIndex]
 $sauceMaster = $sauce[$sauceMasterIndex]
@@ -66,8 +66,8 @@ while ($correctGuesses -lt $totalOptions) {
     $crustSelectionObject = $null
 
     while (!$crustSelectionObject) {
-        $crustSelectionIndex = Read-Host "Choose a number representing the crust type: (0-$($crust.count - 1))"
-        $crustSelectionIndex = $crustSelectionIndex -as [int]
+        $crustSelectionIndex = Read-Host "Choose a number representing the crust type: (1-$($crust.count))"
+        $crustSelectionIndex = $($crustSelectionIndex -as [int]) - 1
         $crustSelectionObject = $crust[$crustSelectionIndex]
     
         if (!$crustSelectionObject) {
@@ -89,8 +89,8 @@ while ($correctGuesses -lt $totalOptions) {
     $sauceSelectionObject = $null
 
     while (!$sauceSelectionObject) {
-        $sauceSelectionIndex = Read-Host "Choose a number representing the sauce type: (0-$($sauce.count - 1))"
-        $sauceSelectionIndex = $sauceSelectionIndex -as [int]
+        $sauceSelectionIndex = Read-Host "Choose a number representing the sauce type: (1-$($sauce.count))"
+        $sauceSelectionIndex = $($sauceSelectionIndex -as [int]) - 1
         #Write-Output "** $sauceSelectionIndex **"
         $sauceSelectionObject = $sauce[$sauceSelectionIndex]
     
@@ -113,8 +113,8 @@ while ($correctGuesses -lt $totalOptions) {
     $meatSelectionObject = $null
 
     while (!$meatSelectionObject) {
-        $meatSelectionIndex = Read-Host "Choose a number representing the meat type: (0-$($meat.count - 1))"
-        $meatSelectionIndex = $meatSelectionIndex -as [int]
+        $meatSelectionIndex = Read-Host "Choose a number representing the meat type: (1-$($meat.count))"
+        $meatSelectionIndex = $($meatSelectionIndex -as [int]) - 1
         #Write-Output "** $meatSelectionIndex **"
         $meatSelectionObject = $meat[$meatSelectionIndex]
     
@@ -137,8 +137,8 @@ while ($correctGuesses -lt $totalOptions) {
     $produceSelectionObject = $null
 
     while (!$produceSelectionObject) {
-        $produceSelectionIndex = Read-Host "Choose a number representing the produce type: (0-$($produce.count - 1))"
-        $produceSelectionIndex = $produceSelectionIndex -as [int]
+        $produceSelectionIndex = Read-Host "Choose a number representing the produce type: (1-$($produce.count))"
+        $produceSelectionIndex = $($produceSelectionIndex -as [int]) - 1
         #Write-Output "** $produceSelectionIndex **"
         $produceSelectionObject = $produce[$produceSelectionIndex]
     
