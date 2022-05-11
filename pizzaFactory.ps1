@@ -44,6 +44,8 @@ $produceMaster = $produce[$produceMasterIndex]
 #Write-Output $produceMaster
 #debug
 
+$guessHistory = @()
+
 # Initialization
 
 $ready = Read-Host 'Would you like to play a game (y/n)?'
@@ -60,6 +62,7 @@ $guessIteration = 0
 $correctGuesses = 0
 
 while ($correctGuesses -lt $totalOptions) {
+    $guess = $null
     $correctGuesses = 0
     $guessIteration = $guessIteration + 1
     Write-Output "`r`nGuess $guessIteration"
@@ -159,7 +162,20 @@ while ($correctGuesses -lt $totalOptions) {
     }
     # Select Produce
 
-    Write-Output "You got $correctGuesses correct."
+    $guess = [pscustomobject]@{
+        iteration = $guessIteration
+        crust = $crustSelectionObject
+        sauce = $sauceSelectionObject
+        meat = $meatSelectionObject
+        produce = $produceSelectionObject
+        correct = $correctGuesses
+    }
+    $guessHistory += $guess
+
+    Write-Output "`r`nYou got $correctGuesses correct.`r`n"
+    Write-Output 'Previous guesses:'
+    Write-Output $guessHistory | Format-Table
+
 }
 
 Write-Output 'You WIN!'
