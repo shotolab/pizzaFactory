@@ -54,6 +54,7 @@ Write-Host @"
 Your job is to guess the pizza ingredients the customer has selected. Each 
 time, the customer will provide feedback on how many ingredients you got correct.
 It's your job to determine which ones are correct.
+Try to guess as few times as possible to figure out the customer's order.
 "@ 
 
 if ($ready.ToUpper() -eq 'N') { exit }
