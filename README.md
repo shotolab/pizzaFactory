@@ -1,4 +1,5 @@
-# pizzaFactory
+# Pizza Factory Game
+The purpose of this game is to teach the value of iteration, feedback and continuous improvement.
 
 ## PowerShell Implementation
 Download the game script using PowerShell:
