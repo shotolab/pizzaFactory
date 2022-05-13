@@ -1,0 +1,216 @@
+<script src="https://unpkg.com/vue@3"></script>
+
+<div>
+Your job is to guess the pizza ingredients the customer has selected. <br />
+Each time, the customer will provide feedback on how many ingredients you got correct. <br />
+It's your job to determine which ones are correct.<br />
+Try to guess as few times as possible to figure out the customer's order.<br /><br />
+</div>
+
+<div id="app"> 
+  <table id="historyElem" border="1" v-if="this.history.length > 0">
+    <tr>
+      <th>Guess Num</th>
+      <th>Crust</th>
+      <th>Sauce</th>
+      <th>Meat</th>
+      <th>Produce</th>
+      <th>Num Correct</th>
+    </tr>
+    <tr v-for="item in history">
+      <td>{{ item.guessNum }}</td>
+      <td>{{ item.crust }}</td>
+      <td>{{ item.sauce }}</td>
+      <td>{{ item.meat }}</td>
+      <td>{{ item.produce }}</td>
+      <td>{{ item.correctCount }}</td>
+    </tr>
+  </table>
+  <br />
+  <h1 v-if="this.winner">You Win!</h1>
+  <select name="crust" id="crust" @change="selectCrust" v-model="selectedCrustID">
+    <option v-for="crust in crusts" :value="crust.id">
+        {{ crust.name }}
+    </option>
+  </select> 
+  <select name="sauce" id="sauce" @change="selectSauce" v-model="selectedSauceID">
+    <option v-for="sauce in sauces" :value="sauce.id">
+        {{ sauce.name }}
+    </option>
+  </select> 
+  <select name="meat" id="meat" @change="selectMeat" v-model="selectedMeatID">
+    <option v-for="meat in meats" :value="meat.id">
+        {{ meat.name }}
+    </option>
+  </select> 
+  <select name="produce" id="produce" @change="selectProduce" v-model="selectedProduceID">
+    <option v-for="veg in produce" :value="veg.id">
+        {{ veg.name }}
+    </option>
+  </select> 
+  <button id="guess" @click="makeGuess">Guess</button>  
+  <br />
+  <br />
+  <button id="reset" @click="resetGame">Reset Game</button>
+</div>
+
+
+<script>
+  const { createApp } = Vue;
+  const { reactive } = Vue;
+  
+  createApp({
+    data() {
+      return {
+        crusts: [{
+          id: 0,
+          name: 'Crust Options'
+        },
+        {
+          id: 1,
+          name: 'Thin'
+        }, {
+          id: 2,
+          name: 'Hand Tossed'
+        }, {
+          id: 3,
+          name: 'Deep Dish'
+        }],
+        sauces: [{
+          id: 0,
+          name: 'Sauce Options'
+        },
+        {
+          id: 1,
+          name: 'Red'
+        }, {
+          id: 2,
+          name: 'Spicy Red'
+        }, {
+          id: 3,
+          name: 'Pesto'
+        }],
+        meats: [{
+          id: 0,
+          name: 'Meat Options'
+        },
+        {
+          id: 1,
+          name: 'Pepperoni'
+        }, {
+          id: 2,
+          name: 'Sausage'
+        }, {
+          id: 3,
+          name: 'Ham'
+        }],
+        produce: [{
+          id: 0,
+          name: 'Produce Options'
+        },
+        {
+          id: 1,
+          name: 'Green Pepper'
+        }, {
+          id: 2,
+          name: 'Onion'
+        }, {
+          id: 3,
+          name: 'Pineapple'
+        }],
+        selectedCrustID: 0,
+        selectedSauceID: 0,
+        selectedMeatID: 0,
+        selectedProduceID: 0,
+        guessCounter: 1,
+        correctCount: 0,
+        winner: false,
+        history: []
+      }
+    }, 
+    methods: {
+      selectCrust(event) {
+        //alert(event.target.value);
+        this.selectedCrustID = event.target.value;
+      },
+      selectSauce(event) {
+        //alert(event.target.value);
+        this.selectedSauceID = event.target.value;
+      },
+      selectMeat(event) {
+        //alert(event.target.value);
+        this.selectedMeatID = event.target.value;
+      },
+      selectProduce(event) {
+        //alert(event.target.value);
+        this.selectedProduceID = event.target.value;
+      },
+      makeGuess() {
+        this.correctCount = 0;
+        
+        if (this.selectedCrustID == masterCrustID) {
+          this.correctCount++;
+        }
+        if (this.selectedSauceID == masterSauceID) {
+          this.correctCount++;
+        }
+        if (this.selectedMeatID == masterMeatID) {
+          this.correctCount++;
+        }
+        if (this.selectedProduceID == masterProduceID) {
+          this.correctCount++;
+        }
+        if (this.correctCount == 4) {
+          this.winner = true;
+        }
+        
+        this.history.push({
+          guessNum: this.guessCounter++,
+          crust: this.crusts[this.selectedCrustID].name,
+          sauce: this.sauces[this.selectedSauceID].name,
+          meat: this.meats[this.selectedMeatID].name,
+          produce: this.produce[this.selectedProduceID].name,
+          correctCount: this.correctCount
+        });
+      },
+      resetGame(event) {
+        initMaster(this);
+      }
+    }
+  }).mount('#app')
+  
+  function initMaster(app) {
+    masterCrustID = Math.floor(Math.random() * (4 - 1) + 1);
+    masterSauceID = Math.floor(Math.random() * (4 - 1) + 1);
+    masterMeatID = Math.floor(Math.random() * (4 - 1) + 1);
+    masterProduceID = Math.floor(Math.random() * (4 - 1) + 1);
+    
+    console.log('Master Values: Crust: ' + masterCrustID + ' | Sauce: ' + masterSauceID + ' | Meat: ' + masterMeatID + ' | Produce: ' + masterProduceID); 
+    
+    if (!app) return;
+    
+    app.guessCounter = 1;
+    app.correctCount = 0;
+    app.winner = false;
+    
+    app.selectedCrustID = 0;
+    app.selectedSauceID = 0;
+    app.selectedMeatID = 0;
+    app.selectedProduceID = 0;
+    
+    app.crusts.value = app.selectedCrustID;
+    app.sauces.value = app.selectedSauceID;
+    app.meats.value = app.selectedMeatID;
+    app.produce.value = app.selectedProduceID;
+    
+    app.history = [];  
+  }
+  
+  // Initialize master guesses
+  var masterCrustID = 0;
+  var masterSauceID = 0;
+  var masterMeatID = 0;
+  var masterProduceID = 0;
+
+  initMaster();
+</script>
