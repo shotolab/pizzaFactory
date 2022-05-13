@@ -48,7 +48,7 @@ $guessHistory = @()
 
 # Initialization
 
-$ready = Read-Host 'Would you like to play a game (y/n)?'
+$ready = Read-Host 'Shall we play a game (y/n)?'
 Write-Host @"
 `r`n
 Your job is to guess the pizza ingredients the customer has selected. Each 
